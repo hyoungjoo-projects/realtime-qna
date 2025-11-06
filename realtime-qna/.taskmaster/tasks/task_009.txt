@@ -1,0 +1,11 @@
+# Task ID: 9
+# Title: Form Handling and Validation
+# Status: pending
+# Dependencies: 8
+# Priority: medium
+# Description: Implement question submission and editing forms using React Hook Form and Zod for schema validation.
+# Details:
+Create forms for question creation and editing. Use React Hook Form with Zod resolver for type-safe validation. Integrate shadcn/ui Form components. Display validation errors and manage form state.
+
+# Test Strategy:
+Submit valid and invalid forms. Check error messages and form reset behavior.

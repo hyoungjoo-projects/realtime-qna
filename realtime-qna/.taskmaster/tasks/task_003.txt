@@ -1,0 +1,11 @@
+# Task ID: 3
+# Title: Supabase Auth Integration
+# Status: pending
+# Dependencies: 2
+# Priority: high
+# Description: Implement email/password authentication using Supabase Auth, including signup, login, email verification, and password reset.
+# Details:
+Integrate @supabase/supabase-js SDK. Implement signup, login, logout, email verification (optional), and password reset flows. Store JWT in memory or secure storage. Ensure session persistence and automatic refresh.
+
+# Test Strategy:
+Register, login, logout, and reset password with test accounts. Validate JWT session and RLS access.

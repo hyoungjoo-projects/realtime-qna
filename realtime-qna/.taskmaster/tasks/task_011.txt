@@ -1,0 +1,11 @@
+# Task ID: 11
+# Title: Toast Notifications and Error Handling
+# Status: pending
+# Dependencies: 10
+# Priority: medium
+# Description: Provide user feedback for actions (success, error) using shadcn/ui Toast and integrate Sentry for error tracking.
+# Details:
+Show toast notifications for question/vote actions and errors. Integrate Sentry with React Error Boundary for error reporting and performance monitoring. Configure Sentry MCP for source maps and alerts.
+
+# Test Strategy:
+Trigger success and error scenarios. Verify toast display and Sentry error capture.

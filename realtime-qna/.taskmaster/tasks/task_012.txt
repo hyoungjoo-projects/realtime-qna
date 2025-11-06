@@ -1,0 +1,11 @@
+# Task ID: 12
+# Title: End-to-End Testing with Playwright
+# Status: pending
+# Dependencies: 11
+# Priority: medium
+# Description: Write E2E tests for core flows: authentication, question CRUD, voting, and real-time sync across devices.
+# Details:
+Use Playwright MCP to generate and maintain E2E scripts. Test on Chromium, Firefox, WebKit. Cover mobile, tablet, and desktop viewports. Simulate multi-user scenarios and network interruptions.
+
+# Test Strategy:
+Run E2E tests in CI. Validate all critical user journeys and real-time features.

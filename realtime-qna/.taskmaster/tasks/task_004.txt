@@ -1,0 +1,11 @@
+# Task ID: 4
+# Title: Protected Routing with React Router
+# Status: pending
+# Dependencies: 3
+# Priority: medium
+# Description: Set up React Router v6+ with protected routes for authenticated user access.
+# Details:
+Configure routes for login, signup, and main Q&A page. Implement a ProtectedRoute component that checks Supabase Auth session. Redirect unauthenticated users to login.
+
+# Test Strategy:
+Attempt to access protected pages without authentication. Ensure proper redirection and access control.

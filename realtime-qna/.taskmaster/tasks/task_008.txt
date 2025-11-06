@@ -1,0 +1,11 @@
+# Task ID: 8
+# Title: Responsive UI with shadcn/ui and Tailwind CSS
+# Status: pending
+# Dependencies: 7
+# Priority: medium
+# Description: Build a fully responsive UI using shadcn/ui components, Tailwind CSS, and tweakcn for design tokens.
+# Details:
+Use shadcn/ui for Card, Button, Input, Dialog, Toast, etc. Apply Tailwind CSS breakpoints for mobile, tablet, and desktop layouts. Integrate tweakcn for color palette and theme management. Support dark/light mode (optional). Optimize touch targets and navigation for each device type.
+
+# Test Strategy:
+Test UI on various devices and screen sizes. Use browser dev tools and Playwright for viewport testing.

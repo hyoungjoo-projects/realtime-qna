@@ -1,0 +1,11 @@
+# Task ID: 2
+# Title: Supabase Project and Database Schema Setup
+# Status: pending
+# Dependencies: 1
+# Priority: high
+# Description: Create Supabase project, configure PostgreSQL schema for users, questions, and votes, and enable Row Level Security (RLS).
+# Details:
+Define tables: users, questions (id, content, author_id, created_at, updated_at), votes (id, question_id, user_id). Enable RLS policies to restrict question edit/delete to owners and voting to authenticated users. Use supabase MCP for schema and API generation.
+
+# Test Strategy:
+Test CRUD operations via Supabase dashboard. Attempt unauthorized actions to verify RLS enforcement.

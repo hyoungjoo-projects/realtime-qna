@@ -1,0 +1,11 @@
+# Task ID: 6
+# Title: Real-time Question Management
+# Status: pending
+# Dependencies: 5
+# Priority: high
+# Description: Implement real-time question creation, editing, and deletion using Supabase Realtime and optimistic UI updates.
+# Details:
+Subscribe to INSERT/UPDATE/DELETE events on the questions table via Supabase Realtime. Update UI immediately on user action, then reconcile with server state. Only show edit/delete for user's own questions.
+
+# Test Strategy:
+Create, edit, and delete questions from multiple clients. Verify real-time sync and UI consistency.

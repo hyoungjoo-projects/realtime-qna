@@ -1,0 +1,11 @@
+# Task ID: 5
+# Title: Global State and Data Fetching with TanStack Query
+# Status: pending
+# Dependencies: 4
+# Priority: high
+# Description: Integrate TanStack Query (React Query v5+) for server state management and data fetching from Supabase.
+# Details:
+Set up QueryClientProvider. Implement queries and mutations for questions and votes. Enable optimistic updates for question creation, editing, deletion, and voting. Integrate with Supabase Realtime for live updates.
+
+# Test Strategy:
+Test data fetching, mutation, and real-time sync. Simulate network latency to verify optimistic UI.

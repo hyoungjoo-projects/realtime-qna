@@ -1,0 +1,11 @@
+# Task ID: 10
+# Title: Session Management and User Context
+# Status: pending
+# Dependencies: 9
+# Priority: medium
+# Description: Maintain user session and context throughout the app, ensuring correct access and UI state.
+# Details:
+Store user info in React context or TanStack Query cache. Ensure session is refreshed and invalidated on logout. Use context to conditionally render UI (e.g., show edit/delete only for own questions).
+
+# Test Strategy:
+Login/logout and navigate app. Confirm session persistence and correct UI rendering.

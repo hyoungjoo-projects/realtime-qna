@@ -1,0 +1,11 @@
+# Task ID: 14
+# Title: Accessibility and UX Enhancements
+# Status: pending
+# Dependencies: 13
+# Priority: low
+# Description: Ensure accessibility (a11y) compliance and polish UX using Radix UI primitives and shadcn/ui best practices.
+# Details:
+Audit UI for keyboard navigation, ARIA roles, and color contrast. Use Radix UI for accessible dialogs, toasts, and forms. Refine focus management and screen reader support.
+
+# Test Strategy:
+Test with keyboard and screen readers. Use a11y tools to check compliance.

@@ -1,0 +1,11 @@
+# Task ID: 7
+# Title: Voting System Implementation
+# Status: pending
+# Dependencies: 6
+# Priority: high
+# Description: Enable users to upvote questions, with real-time vote count updates and prevention of duplicate votes.
+# Details:
+Implement vote button for each question (except own). On click, insert or remove vote in the votes table. Use Supabase Realtime to update vote counts instantly. Prevent multiple votes per user per question at the DB level.
+
+# Test Strategy:
+Vote/unvote from multiple clients. Attempt duplicate votes. Confirm real-time vote count updates.

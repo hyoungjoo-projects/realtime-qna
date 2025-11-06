@@ -1,0 +1,11 @@
+# Task ID: 1
+# Title: Project Initialization and Tooling Setup
+# Status: pending
+# Dependencies: None
+# Priority: high
+# Description: Initialize the project repository, configure Vite, TypeScript, ESLint, Prettier, and set up the base folder structure.
+# Details:
+Use Vite to scaffold a new React (v18+) + TypeScript (v5+) project. Configure ESLint and Prettier for code quality. Set up Tailwind CSS with PostCSS and Autoprefixer. Initialize Git repository and connect to GitHub. Prepare .env files for environment variables. Ensure npm or pnpm is used for dependency management.
+
+# Test Strategy:
+Verify project builds and runs locally. Lint and format sample files. Confirm GitHub integration and CI/CD triggers on push.

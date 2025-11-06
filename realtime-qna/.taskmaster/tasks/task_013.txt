@@ -1,0 +1,11 @@
+# Task ID: 13
+# Title: Deployment and CI/CD with Vercel
+# Status: pending
+# Dependencies: 12
+# Priority: medium
+# Description: Configure Vercel for automatic deployment, preview environments, and environment variable management.
+# Details:
+Connect GitHub repo to Vercel. Set up production and preview deployments. Configure environment variables for Supabase and Sentry. Use Vercel MCP for deployment automation.
+
+# Test Strategy:
+Push code to trigger deployments. Verify preview and production builds. Test environment variable injection.
