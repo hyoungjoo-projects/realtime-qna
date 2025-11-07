@@ -1,73 +1,105 @@
-# React + TypeScript + Vite
+# 실시간 Q&A 애플리케이션
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + TypeScript + Vite로 구축된 실시간 질문과 답변 플랫폼입니다.
 
-Currently, two official plugins are available:
+## 주요 기능
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 🔐 이메일/비밀번호 인증 (Supabase Auth)
+- 💬 실시간 질문 작성, 수정, 삭제
+- 👍 투표 시스템
+- 📱 반응형 디자인 (모바일, 태블릿, 데스크톱)
+- ⚡ 실시간 동기화 (Supabase Realtime)
+- 🎨 현대적인 UI (shadcn/ui + Tailwind CSS)
+- 🧪 E2E 테스트 (Playwright)
 
-## React Compiler
+## 기술 스택
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Frontend**: React 19, TypeScript, Vite
+- **UI**: shadcn/ui, Tailwind CSS, Framer Motion
+- **Backend**: Supabase (PostgreSQL, Auth, Realtime)
+- **State Management**: TanStack Query
+- **Form Handling**: React Hook Form + Zod
+- **Testing**: Playwright (E2E)
+- **Notifications**: Sonner
 
-## Expanding the ESLint configuration
+## 시작하기
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 필수 요구사항
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Node.js 18+
+- npm 또는 pnpm
+- Supabase 프로젝트
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### 설치
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+# 의존성 설치
+npm install
+
+# 환경 변수 설정
+cp .env.example .env
+# .env 파일에 Supabase URL과 Anon Key 추가
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 개발 서버 실행
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run dev
 ```
+
+### 빌드
+
+```bash
+npm run build
+```
+
+### E2E 테스트
+
+```bash
+# 모든 테스트 실행
+npm run test:e2e
+
+# UI 모드로 실행
+npm run test:e2e:ui
+
+# 헤드 모드로 실행 (브라우저 표시)
+npm run test:e2e:headed
+
+# 디버그 모드
+npm run test:e2e:debug
+```
+
+## E2E 테스트
+
+Playwright를 사용하여 다음 시나리오를 테스트합니다:
+
+- ✅ 인증 플로우 (로그인, 회원가입, 로그아웃, 비밀번호 재설정)
+- ✅ 질문 CRUD (생성, 수정, 삭제)
+- ✅ 투표 기능
+- ✅ 실시간 동기화 (다중 사용자 시나리오)
+- ✅ 반응형 디자인 (모바일, 태블릿, 데스크톱)
+- ✅ 네트워크 중단 시나리오
+
+테스트는 Chromium, Firefox, WebKit 브라우저에서 실행됩니다.
+
+## 프로젝트 구조
+
+```
+src/
+├── components/        # React 컴포넌트
+│   ├── auth/         # 인증 관련 컴포넌트
+│   ├── questions/    # 질문 관련 컴포넌트
+│   ├── routing/      # 라우팅 컴포넌트
+│   └── ui/           # UI 컴포넌트 (shadcn/ui)
+├── contexts/         # React Context
+├── hooks/            # Custom Hooks
+├── lib/              # 유틸리티 및 설정
+├── pages/            # 페이지 컴포넌트
+└── types/            # TypeScript 타입 정의
+
+e2e/                  # Playwright E2E 테스트
+```
+
+## 라이선스
+
+MIT

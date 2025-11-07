@@ -39,4 +39,9 @@ node_modules/
 
 # MCP cache directories
 .playwright-mcp/
-*.mcp/ 
+*.mcp/
+
+# Playwright
+/test-results/
+/playwright-report/
+/playwright/.cache/ 

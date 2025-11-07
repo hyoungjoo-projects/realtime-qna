@@ -16,6 +16,7 @@ import { useDeleteQuestion } from "@/hooks/useQuestions";
 import { useVoteCount, useUserVote, useToggleVote } from "@/hooks/useVotes";
 import { EditQuestionDialog } from "./EditQuestionDialog";
 import { ThumbsUp } from "lucide-react";
+import { showSuccess, showError } from "@/lib/toast";
 import type { Database } from "@/types/supabase";
 
 type Question = Database["public"]["Tables"]["questions"]["Row"];
@@ -39,17 +40,39 @@ export function QuestionCard({ question }: QuestionCardProps) {
 
   const handleVote = () => {
     if (!user?.id) return;
-    toggleVote.mutate({
-      questionId: question.id,
-      userId: user.id,
-      hasVoted,
-    });
+    toggleVote.mutate(
+      {
+        questionId: question.id,
+        userId: user.id,
+        hasVoted,
+      },
+      {
+        onSuccess: () => {
+          showSuccess(hasVoted ? "투표가 취소되었습니다." : "투표가 완료되었습니다.");
+        },
+        onError: (error) => {
+          showError(
+            error instanceof Error
+              ? error.message
+              : "투표 처리에 실패했습니다. 다시 시도해주세요."
+          );
+        },
+      }
+    );
   };
 
   const handleDelete = () => {
     deleteQuestion.mutate(question.id, {
       onSuccess: () => {
         setShowDeleteDialog(false);
+        showSuccess("질문이 삭제되었습니다.");
+      },
+      onError: (error) => {
+        showError(
+          error instanceof Error
+            ? error.message
+            : "질문 삭제에 실패했습니다. 다시 시도해주세요."
+        );
       },
     });
   };
@@ -71,17 +94,31 @@ export function QuestionCard({ question }: QuestionCardProps) {
 
   return (
     <>
-      <Card className="hover:shadow-lg transition-all duration-300 border-l-4 border-l-primary/30">
+      <Card
+        data-testid="question-card"
+        role="article"
+        aria-labelledby={`question-${question.id}-title`}
+        className="hover:shadow-lg transition-all duration-300 border-l-4 border-l-primary/30"
+      >
         <CardHeader className="pb-3 sm:pb-6">
           <div className="flex items-start justify-between gap-4">
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 mb-3">
-                <div className="h-2 w-2 rounded-full bg-primary animate-pulse" />
-                <p className="text-xs text-muted-foreground sm:text-sm font-medium">
+                <div
+                  className="h-2 w-2 rounded-full bg-primary animate-pulse"
+                  aria-hidden="true"
+                />
+                <time
+                  dateTime={question.created_at}
+                  className="text-xs text-muted-foreground sm:text-sm font-medium"
+                >
                   {formatDate(question.created_at)}
-                </p>
+                </time>
               </div>
-              <p className="text-sm leading-relaxed whitespace-pre-wrap break-words sm:text-base text-foreground/90">
+              <p
+                id={`question-${question.id}-title`}
+                className="text-sm leading-relaxed whitespace-pre-wrap break-words sm:text-base text-foreground/90"
+              >
                 {question.content}
               </p>
             </div>
@@ -95,23 +132,37 @@ export function QuestionCard({ question }: QuestionCardProps) {
                 size="sm"
                 onClick={handleVote}
                 disabled={!user || isOwner || toggleVote.isPending}
+                aria-label={
+                  isOwner
+                    ? "본인 질문에는 투표할 수 없습니다"
+                    : hasVoted
+                      ? `투표 취소 (현재 투표 수: ${voteCount})`
+                      : `투표하기 (현재 투표 수: ${voteCount})`
+                }
+                aria-pressed={hasVoted}
                 className={`gap-2 min-h-[44px] sm:min-h-[36px] touch-manipulation transition-all ${
                   hasVoted 
                     ? "shadow-md hover:shadow-lg" 
                     : "hover:border-primary/50 hover:bg-primary/5"
                 }`}
               >
-                <ThumbsUp className={`h-4 w-4 sm:h-4 sm:w-4 ${hasVoted ? "fill-current" : ""}`} />
-                <span className="text-sm sm:text-sm font-medium">{voteCount}</span>
+                <ThumbsUp
+                  className={`h-4 w-4 sm:h-4 sm:w-4 ${hasVoted ? "fill-current" : ""}`}
+                  aria-hidden="true"
+                />
+                <span className="text-sm sm:text-sm font-medium" aria-live="polite">
+                  {voteCount}
+                </span>
               </Button>
             </div>
 
             {isOwner && (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2" role="group" aria-label="질문 관리">
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={() => setShowEditDialog(true)}
+                  aria-label="질문 수정"
                   className="min-h-[44px] sm:min-h-[36px] touch-manipulation hover:bg-accent"
                 >
                   수정
@@ -120,6 +171,7 @@ export function QuestionCard({ question }: QuestionCardProps) {
                   variant="ghost"
                   size="sm"
                   onClick={() => setShowDeleteDialog(true)}
+                  aria-label="질문 삭제"
                   className="text-destructive hover:text-destructive hover:bg-destructive/10 min-h-[44px] sm:min-h-[36px] touch-manipulation"
                 >
                   삭제

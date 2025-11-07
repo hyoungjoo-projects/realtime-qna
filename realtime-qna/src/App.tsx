@@ -5,13 +5,16 @@ import { SignUpPage } from "./pages/SignUpPage";
 import { ForgotPasswordPage } from "./pages/ForgotPasswordPage";
 import { HomePage } from "./pages/HomePage";
 import { useAuth } from "./contexts/AuthContext";
+import { SkipLink } from "./components/accessibility/SkipLink";
 import "./App.css";
 
 function AppRoutes() {
   const { user } = useAuth();
 
   return (
-    <Routes>
+    <>
+      <SkipLink targetId="main-heading" />
+      <Routes>
       {/* Public routes */}
       <Route
         path="/login"
@@ -41,6 +44,7 @@ function AppRoutes() {
       {/* Catch all - redirect to home */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
+    </>
   );
 }
 

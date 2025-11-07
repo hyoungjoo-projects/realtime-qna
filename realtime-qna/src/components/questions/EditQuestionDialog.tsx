@@ -1,4 +1,6 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Dialog,
   DialogContent,
@@ -8,9 +10,18 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
 import { useUpdateQuestion } from "@/hooks/useQuestions";
+import { questionSchema, type QuestionFormData } from "@/lib/validations";
+import { showSuccess, showError } from "@/lib/toast";
 import type { Database } from "@/types/supabase";
 
 type Question = Database["public"]["Tables"]["questions"]["Row"];
@@ -26,27 +37,40 @@ export function EditQuestionDialog({
   open,
   onOpenChange,
 }: EditQuestionDialogProps) {
-  const [content, setContent] = useState(question.content);
   const updateQuestion = useUpdateQuestion();
+
+  const form = useForm<QuestionFormData>({
+    resolver: zodResolver(questionSchema),
+    defaultValues: {
+      content: question.content,
+    },
+  });
 
   useEffect(() => {
     if (open) {
-      setContent(question.content);
+      form.reset({
+        content: question.content,
+      });
     }
-  }, [open, question.content]);
+  }, [open, question.content, form]);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!content.trim()) return;
-
+  const handleSubmit = (data: QuestionFormData) => {
     updateQuestion.mutate(
       {
         id: question.id,
-        updates: { content: content.trim() },
+        updates: { content: data.content },
       },
       {
         onSuccess: () => {
           onOpenChange(false);
+          showSuccess("질문이 성공적으로 수정되었습니다.");
+        },
+        onError: (error) => {
+          showError(
+            error instanceof Error
+              ? error.message
+              : "질문 수정에 실패했습니다. 다시 시도해주세요."
+          );
         },
       }
     );
@@ -55,56 +79,65 @@ export function EditQuestionDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-[95vw] sm:max-w-md">
-        <form onSubmit={handleSubmit}>
-          <DialogHeader>
-            <DialogTitle className="text-lg sm:text-xl">질문 수정</DialogTitle>
-            <DialogDescription className="text-sm sm:text-base">
-              질문 내용을 수정하세요.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4 py-4">
-            <div className="space-y-2">
-              <Label htmlFor="edit-content" className="text-sm sm:text-base">
-                질문 내용
-              </Label>
-              <Textarea
-                id="edit-content"
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-                placeholder="질문을 입력하세요..."
-                rows={5}
-                required
-                disabled={updateQuestion.isPending}
-                className="text-sm sm:text-base min-h-[100px] sm:min-h-[120px]"
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(handleSubmit)}>
+            <DialogHeader>
+              <DialogTitle className="text-lg sm:text-xl">질문 수정</DialogTitle>
+              <DialogDescription className="text-sm sm:text-base">
+                질문 내용을 수정하세요.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="space-y-4 py-4">
+              <FormField
+                control={form.control}
+                name="content"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-sm sm:text-base">
+                      질문 내용
+                    </FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="질문을 입력하세요..."
+                        rows={5}
+                        disabled={updateQuestion.isPending}
+                        aria-label="질문 내용 수정"
+                        aria-required="true"
+                        className="text-sm sm:text-base min-h-[100px] sm:min-h-[120px]"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
             </div>
-            {updateQuestion.isError && (
-              <div className="rounded-md bg-destructive/10 p-3 text-xs text-destructive sm:text-sm">
-                {updateQuestion.error instanceof Error
-                  ? updateQuestion.error.message
-                  : "질문 수정에 실패했습니다."}
-              </div>
-            )}
-          </div>
-          <DialogFooter className="flex-col gap-2 sm:flex-row">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => onOpenChange(false)}
-              disabled={updateQuestion.isPending}
-              className="w-full min-h-[44px] sm:w-auto sm:min-h-[36px] touch-manipulation"
-            >
-              취소
-            </Button>
-            <Button
-              type="submit"
-              disabled={updateQuestion.isPending}
-              className="w-full min-h-[44px] sm:w-auto sm:min-h-[36px] touch-manipulation"
-            >
-              {updateQuestion.isPending ? "수정 중..." : "수정"}
-            </Button>
-          </DialogFooter>
-        </form>
+            <DialogFooter className="flex-col gap-2 sm:flex-row">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => onOpenChange(false)}
+                disabled={updateQuestion.isPending}
+                aria-label="질문 수정 취소"
+                className="w-full min-h-[44px] sm:w-auto sm:min-h-[36px] touch-manipulation"
+              >
+                취소
+              </Button>
+              <Button
+                type="submit"
+                disabled={updateQuestion.isPending}
+                aria-label={updateQuestion.isPending ? "질문 수정 중" : "질문 수정 완료"}
+                className="w-full min-h-[44px] sm:w-auto sm:min-h-[36px] touch-manipulation"
+              >
+                {updateQuestion.isPending ? (
+                  <span aria-live="polite">수정 중...</span>
+                ) : (
+                  "수정"
+                )}
+              </Button>
+            </DialogFooter>
+          </form>
+        </Form>
       </DialogContent>
     </Dialog>
   );
